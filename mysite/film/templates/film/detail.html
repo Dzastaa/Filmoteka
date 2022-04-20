@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Filmoteka</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+    	.main{
+		min-height: 100vh;
+		height: 100%;
+	}
+    img{
+        height: 400px;
+        margin: 50px 41%;
+    }
+    
+    
+    table{
+        color: white;
+        font-size: 16px;
+    
+        
+    }
+    tr{
+    
+    }
+    td{
+        padding-right: 20px;
+        padding-top: 20px;
+        padding-left: 40%;
+    }
+   a{
+        color: yellow;
+    }
+    a:hover{
+        text-decoration: none;
+        font-style: oblique;
+    }
+    .form{
+        color: white;
+        padding-left: 50px;        
+            
+    }
+    </style>
+</head>
+<body>
+{%include 'film/snippets/base_css.html' %}
+{%include 'film/snippets/header.html' %}
+
+<div class="main">
+    <img src="{{movie.image.url}}" alt="Film"/>
+    <table>
+        <tr>
+            <td>Tytuł:</td>
+            <td>{{movie}}</td>
+        </tr>
+        <tr>
+            <td>Rok produkcji:</td>
+            <td>{{movie.year}}</td>
+        </tr>
+        <tr>
+            <td>Kategoria:</td>
+            <td>{{movie.category}}</td>
+        </tr>
+        <tr>
+            <td>Opis:</td>
+            <td>{{movie.text}}</td>
+        </tr>
+        <tr>
+            <td>Obejrzyj:</td>
+            <td><a href="{{movie.url_adress}}">{{movie.url_adress}}</a></td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div class="form">
+    <form action="{% url 'film:vote' movie.id %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h1>Jak oceniasz ten film/serial?</h1><br></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for choice in movie.choice_set.all %}
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+        {% endfor %}
+    </fieldset>
+    <br>
+    <input type="submit" value="Zagłosuj">
+    <input type="reset" value="Wyczyść">
+    </form>
+    </div>
+</div>
+
+{%include 'film/snippets/footer.html' %}
+
+</body>
+</html>

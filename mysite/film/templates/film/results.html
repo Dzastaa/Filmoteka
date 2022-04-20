@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Filmoteka</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+{%include 'film/snippets/base_css.html' %}
+{%include 'film/snippets/header.html' %}
+<style type="text/css">
+	.main{
+		min-height: 100vh;
+		height: 100%;
+        padding-left: 50px;
+	}
+    h2{
+        text-align: center;
+        color: white;
+        text-transform: uppercase;
+    }
+    .main a{
+        color: yellow;
+        text-transform: uppercase;
+        
+    }
+    a:hover{
+        text-decoration: none;
+        font-style: oblique;
+    }
+    ul{
+        color: white;
+    }
+</style>
+<div class="main">
+<h2>Sprawdź jak zagłosowali inni:</h2>
+{% for choice in movie.choice_set.all %}
+    <ul>
+        <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+    </ul>
+{% endfor %}
+<a href="{% url 'film:detail' movie.id %}">Zagłosuj ponownie</a>
+</div>
+
+{%include 'film/snippets/footer.html' %}
+
+</body>
+</html>

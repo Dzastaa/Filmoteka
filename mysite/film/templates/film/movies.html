@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Filmoteka</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+{%include 'film/snippets/base_css.html' %}
+{%include 'film/snippets/header.html' %}
+<style type="text/css">
+	.main{
+		min-height: 100vh;
+		height: 100%;
+        color: white;
+        font-size: 15px;
+        padding-left: 20px;
+	}
+     a{
+        color: yellow;
+    }
+    a:hover{
+        text-decoration: none;
+        font-style: oblique;
+    }
+    
+    .naglowki{
+        font-size: 20px;
+        letter-spacing: 4px;
+    }
+    img{
+        height: 50px;
+    }
+   
+    
+</style>
+<div class="main">
+<p class="naglowki">Filmy i seriale:</p>
+{% if movie_list %}
+    <ul>
+    {% for film in movie_list %}
+        <div>
+            <li>
+                <img src={{film.image.url}} alt="Film">
+                <a href="{% url 'film:detail' film.id %}">{{ film.title }} {{film.year}}</a>
+            </li>
+        </div>
+        <br>
+        
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No movies are available.</p>
+{% endif %}
+    <p class="naglowki">Nowe odcinki:</p>
+{% if series_list %}
+    <ul>
+    {% for film in series_list %}
+        <li>
+            {{ film.parent_series}}
+            <ul>
+                <li>
+                    {{film.title}}--odc.{{film.episode_no}}<br>
+                    <p>Opis odcinka: {{film.text}}<br>
+                        Obejrzyj: <a href="{{film.url_adress}}">{{film.url_adress}}</a></p>
+                </li>
+            </ul>
+        </li>
+        
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No series are available.</p>
+{% endif %}
+</div>
+
+{%include 'film/snippets/footer.html' %}
+
+</body>
+</html>

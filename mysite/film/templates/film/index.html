@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Filmoteka</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+{% load static %}
+
+{%include 'film/snippets/base_css.html' %}
+{%include 'film/snippets/header.html' %}
+<style type="text/css">
+	.main{
+		min-height: 100vh;
+		height: 100%;
+        padding-left: 50px;
+	}
+    img{
+        height: 200px;
+        padding-right: 20px;
+        
+    }
+    h1{
+        text-align: center;
+        color: white;
+        text-transform: uppercase;
+    }
+    a{
+        color: white;
+    }
+    a:hover{
+        text-decoration: none;
+        font-style: oblique;
+    }
+    .left{
+        width: 48%;
+        float: left;
+    }
+    .right{
+        width: 48%;
+        float: right;
+        height: 100%;
+        margin: auto;
+    }
+    .img_prawe{
+        margin: auto;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<div class="main">
+    <div class="left">
+    <h1>Najnowsze tytuły</h1>
+	{% if latest_list %}
+        {% for film in latest_list %}
+            <div class="blok">
+                <img src="{{film.image.url}}" alt="Film"/>
+                <a href="{% url 'film:detail' film.id %}">{{ film.title }} {{film.year}} ({{film.category}})</a>
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>No films are available.</p>
+    {% endif %}
+    </div>
+    
+    <div class="right">
+        <img class="img_prawe"src="{% static 'tlo1.jpg' %}">
+    </div>
+</div>
+
+{%include 'film/snippets/footer.html' %}
+
+</body>
+</html>
